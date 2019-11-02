@@ -109,7 +109,23 @@ h2{
 }
 
 .two{
-    z-index: 999999;
+    color: rgba(230,154,7);
+}
+
+a i {
+    position: absolute;
+    right: .3em;
+    top: .1em;
+    z-index: 1;
+}
+
+.star{
+    position: absolute;
+    right: 0;
+}
+
+.mini-cards{
+    display: flex;
 }
 .tituloh6 {
     font-weight: bold;
@@ -150,7 +166,5 @@ h2{
 /* tamanho da imagem no modal(pop-up) */
 
 #alsolikecard {
-    width: 223px;
     height: 350px;
-    float: left;
 }

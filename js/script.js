@@ -78,9 +78,9 @@ function escrever(data) {
                     $('#lCervejas').append(
                             `
 		<div class="col-lg-4 col-md-6 col-sm-12 mt-4 ">
-		 <div class="card " style="width: 18rem;" button type="button"  data-toggle="modal" data-target="#modalQuickView${element.id}">
-						<a><i class="fa fa-star-o two" aria-hidden="true" onclick="addFavo(${element.id})"></i></a>
-			<img class="card-img-top smallimg" src="${element.image_url}">
+		 <div class="card" type="button"  data-toggle="modal" data-target="#modalQuickView${element.id}">
+			<a><i class="fa fa-star-o m-3 star" aria-hidden="true" onclick="addFavo(${element.id})"></i></a>
+			<img class="card-img-top smallimg m-3" src="${element.image_url}">
 			<div class="card-body ">
 				<h5 class="card-title">${element.name}</h5>
 				<p class="card-text">${element.tagline}</p>
@@ -157,29 +157,36 @@ function escrever(data) {
 										 
 									  </div>
   
-									  <h4 class ="title ml-4 mt-5" id="alsolike">You might also like:</h4>
+									 
 									  
 								  </div>
-								  <div class="card " id="alsolikecard">
+
+								<div class="row">
+								<h4 class ="title ml-4 mt-5" id="alsolike">You might also like:</h4>
+								</div>
+								<div class="row">						
+								  <div class="card" id="alsolikecard">
 									<img class="card-img-top smallimg" src="${element.image_url}" class="img-fluid" alt="Responsive image">
 									<div class="card-body" id="alsolikecard">
 									 <h5 class="card-title" style="color: grey">${element.name}</h5>
 									</div>
 								  </div>
 								 
-								  <div class="card " id="alsolikecard">
+								  <div class="card" id="alsolikecard">
 									<img class="card-img-top smallimg" src="${element.image_url}" class="img-fluid" alt="Responsive image">
 									<div class="card-body" id="alsolikecard">
 									 <h5 class="card-title" style="color: grey">${element.name}</h5>
 									</div>
 								  </div>
 
-								  <div class="card " id="alsolikecard">
+								  <div class="card" id="alsolikecard">
 									<img class="card-img-top smallimg" src="${element.image_url}"class="img-fluid" alt="Responsive image">
 									<div class="card-body" id="alsolikecard">
 									 <h5 class="card-title" style="color: grey">${element.name}</h5>
 									</div>
 								  </div>
+								
+								</div>
 
 
 							  </div>
@@ -399,5 +406,33 @@ class BeerSearch {
         alert.text(message)
     }
 }
+
+//Guarda os favoritos
+var listaFovoritos = [];
+function addFavo(elemento) {
+	if(typeof(Storage) !== "undefined") {
+		if (sessionStorage.listaFovoritos) {
+			listaFovoritos = JSON.parse(
+				sessionStorage.getItem("listaFovoritos"));
+		} else {
+			listaFovoritos = [];
+		}		
+			if(listaFovoritos.includes(elemento)){
+				listaFovoritos.splice(listaFovoritos.indexOf(elemento),1);
+				console.log('deletei dos favoritos')
+				$(`#id-${elemento}`).removeClass('fa fa-star two').addClass('fa fa-star-o');
+			}else{
+				listaFovoritos.push(elemento)
+				console.log('adicionei nos favoritos')
+				$(`#id-${elemento}`).removeClass('fa fa-star-o').addClass('fa fa-star two');
+			}			
+			
+		sessionStorage.listaFovoritos = JSON.stringify(listaFovoritos);
+	}
+	listaAtualizada = JSON.parse(sessionStorage.getItem("listaFovoritos"));
+	
+}
+
+
 
 const beerForm = new BeerSearch()

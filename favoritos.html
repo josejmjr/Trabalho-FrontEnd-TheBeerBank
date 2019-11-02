@@ -19,9 +19,10 @@
             <ul class="navbar-nav ml-auto">
 
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                      </button>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
@@ -30,7 +31,8 @@
                             <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" href="favourite.html">Favourite <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="favoritos.html">Favourite <span
+                                    class="sr-only">(current)</span></a>
                         </li>
                     </ul>
                 </div>
@@ -46,58 +48,26 @@
 
     </div>
     <!--- Cards para exibição das cervejas-->
-    <div class="cartoes-cervejas row container-fluid mt-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card " style="width: 18rem;">
-                    <img class="card-img-top" src="img/CERVEJA-EISENBAHN-350ML-LT-PILSEN.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Titulo que vamos capturar</h5>
-                        <p class="card-text">texto que temos que pegar</p>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card " style="width: 18rem;">
-                    <img class="card-img-top" src="img/CERVEJA-EISENBAHN-350ML-LT-PILSEN.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Titulo que vamos capturar</h5>
-                        <p class="card-text">texto que temos que pegar</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card " style="width: 18rem;">
-                    <img class="card-img-top" src="img/CERVEJA-EISENBAHN-350ML-LT-PILSEN.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Titulo que vamos capturar</h5>
-                        <p class="card-text">texto que temos que pegar</p>
-                    </div>
-                </div>
-            </div>
-
-
-
-
+    <div class="card-deck cartoes-cervejas row container-fluid mt-4">
+        <div class=" mb-3 text-center row justify-content-center" id="fCerveja">
+            <!--Bloco das cervejas-->
         </div>
-
-
-
     </div>
+
     <footer class="py-5 bg-dark">
         <div class="container">
             <p class="m-0 text-center text-white">Copyright &copy; The Beer Bank V2</p>
         </div>
         <!-- /.container -->
     </footer>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/popper.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/favoritos.js"></script>
 
 </body>
 

@@ -38,7 +38,7 @@ $('#search-input').keyup(function(){
 			  $.each((data), function(val){
 				if ((val.name.search(regex) != -1) ) {
                   output += '<div class="col-lg-4 col-md-6 col-sm-12">';
-                  output += '<div class="card " style="width: 18rem;">';
+                  output += '<div class="card">';
                   output += '<img class="card-img-top" src="' +val.image_url +'" alt="Card image cap">';
                   output += '<div class="card-body">';
                   output += '<h5 class="card-title">'+val.name+'</h5>';
