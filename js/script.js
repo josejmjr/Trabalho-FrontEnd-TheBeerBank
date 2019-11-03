@@ -1,43 +1,5 @@
-var listaFovoritos = [];
-function addFavo(elemento) {
-	if(typeof(Storage) !== "undefined") {
-		if (sessionStorage.lista) {
-			listaFovoritos = JSON.parse(
-				sessionStorage.getItem("listaFovoritos"));
-		} else {
-			listaFovoritos = [];
-		}		
-			if(listaFovoritos.includes(elemento)){
-				listaFovoritos.splice(listaFovoritos.indexOf(elemento),1);
-			}else{
-				listaFovoritos.push(elemento)
-			}			
-			
-		sessionStorage.listaFovoritos = JSON.stringify(listaFovoritos);
-	}
-}
-
-
-
-var fav = listaFovoritos.filter(function id (){
-	return listaFovoritos.includes9item.id
-});
-
-
 const todasCervejas = [];
 var i = 2;
-/*
-$.when ($('#search-input').val() == '').then(function (){
-fetch(`https://api.punkapi.com/v2/beers?page=1&per_page=80`)
-		   .then(function(resp) {
-			   return resp.json();
-		   })
-		   .then(function(data) {
-			  escrever(data);
-		   });
-});*/
-
-
 
 // verificar se não tem nada e escreve na tela as 80 primeiras
 if ($('#search-input').val() == '') {
@@ -49,6 +11,7 @@ if ($('#search-input').val() == '') {
             escrever(data);
         });
 };
+
 
 $(window).scroll(function() {
     if ($(window).scrollTop() == $(document).height() - $(window).height() && $('#search-input').val() === "") {
@@ -77,21 +40,23 @@ function escrever(data) {
                     }
                     $('#lCervejas').append(
                             `
-		<div class="col-lg-4 col-md-6 col-sm-12 mt-4 ">
-		 <div class="card" type="button"  data-toggle="modal" data-target="#modalQuickView${element.id}">
-			<a><i class="fa fa-star-o m-3 star" aria-hidden="true" onclick="addFavo(${element.id})"></i></a>
+		<div class="col-lg-4 col-md-6 col-sm-12 mt-4 grow">
+		<a><i class="fa fa-star-o two mt-3 mr-4" id="id${element.id}" aria-hidden="true" onclick="addFavo(${element.id})"></i></a> 
+		<div class="card" type="button"  data-toggle="modal" data-target="#modalQuickView${element.id}">
 			<img class="card-img-top smallimg m-3" src="${element.image_url}">
-			<div class="card-body ">
+			<div class="card-body">
 				<h5 class="card-title">${element.name}</h5>
 				<p class="card-text">${element.tagline}</p>
-
+				</div>
+				</div>
+			</div>
 
 				<!-- Modal inicio: modalQuickView -->
 				
 				<div class="modal fade" id="modalQuickView${element.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog modal-lg" role="document">
 						<div class="modal-content">
-							<div class="modal-body">
+							<div class="modal-body p-5">
 
 							<!-- X PRA FECHAR O POP UP -->
 
@@ -102,7 +67,7 @@ function escrever(data) {
 							<!--/.X PRA FECHAR O POP UP-->
 
 								<div class="row">
-									<div class="col-lg-5">
+									<div class="col-sm-4">
 											 <!--Carousel Wrapper-->
 									   <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
 											
@@ -120,28 +85,23 @@ function escrever(data) {
 
 									<!--/.Carousel Wrapper-->
 								  </div>
-										<div class="col-lg-7">
-											<h2 class="h2-responsive product-name">
-												<h3 id="nomeprodutomodal" style=text-align:left>${element.name} </h3>
-											</h2>
+										<div class="col-sm-8 text-left">
+											<h3 id="nomeprodutomodal">${element.name} </h3>
 											<h4 class="h4-responsive">
 												<span class="text-muted">
-													<h6 style=text-align:left>${element.tagline}</h6>
+													<h6>${element.tagline}</h6>
 												</span>
 												<span>
-												<h6 class ="title mt-3" style=text-align:left>IBU: ${element.ibu}  ABV: ${element.abv}%   EBC: ${element.ebc}</h6>
+												<h5 class ="title mt-3">IBU: ${element.ibu}  ABV: ${element.abv}%   EBC: ${element.ebc}</h5>
 												</span>
 											</h4>
 
 											<!--Accordion wrapper-->
-											<div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
-
-
-
+											<div class="accordion md-accordion font-size" id="accordionEx" role="tablist" aria-multiselectable="true">
 												<!-- Card body -->
 												<div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
-													<div class="card-body" style=text-align:left>
-													${element.tagline}
+													<div>
+													${element.description}
 													<h6 class ="title" style=text-align:left id="bestserved"><strong>Best Served With </strong></h6>
 													 <ul style=text-align:left>
 													   ${element.food_pairing
@@ -161,31 +121,41 @@ function escrever(data) {
 									  
 								  </div>
 
-								<div class="row">
-								<h4 class ="title ml-4 mt-5" id="alsolike">You might also like:</h4>
+								<div class="row mt-3 mb-3">
+									<h4 class ="title" id="alsolike">You might also like:</h4>
 								</div>
-								<div class="row">						
-								  <div class="card" id="alsolikecard">
-									<img class="card-img-top smallimg" src="${element.image_url}" class="img-fluid" alt="Responsive image">
-									<div class="card-body" id="alsolikecard">
-									 <h5 class="card-title" style="color: grey">${element.name}</h5>
-									</div>
-								  </div>
-								 
-								  <div class="card" id="alsolikecard">
-									<img class="card-img-top smallimg" src="${element.image_url}" class="img-fluid" alt="Responsive image">
-									<div class="card-body" id="alsolikecard">
-									 <h5 class="card-title" style="color: grey">${element.name}</h5>
-									</div>
-								  </div>
 
-								  <div class="card" id="alsolikecard">
-									<img class="card-img-top smallimg" src="${element.image_url}"class="img-fluid" alt="Responsive image">
-									<div class="card-body" id="alsolikecard">
-									 <h5 class="card-title" style="color: grey">${element.name}</h5>
+								<div class="container">
+									<div class="row">
+
+										<div class="col-sm-4" data-target="#modalQuickView${Math.floor(Math.random(element.id) * 10)}">
+											<div class="border height p-3">	
+												<img class="card-img-top m-3 p-1 smallimg" src="${element.image_url}" class="img-fluid" alt="${element.name}" />
+												<div id="">
+													<h5 class="card-title" style="color: grey">${element.name}</h5>
+												</div>
+											</div>
+										</div>
+										
+										<div class="col-sm-4" id="modalQuickView${Math.floor(Math.random(element.id) * 10)}">
+											<div class="border height p-3">	
+												<img class="card-img-top m-3 p-1 smallimg" src="${element.image_url}" class="img-fluid" alt="${element.name}" />
+												<div id="">
+													<h5 class="card-title" style="color: grey">${element.name}</h5>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-sm-4" id="modalQuickView${Math.floor(Math.random(element.id) * 10)}">
+											<div class="border height p-3">	
+												<img class="card-img-top m-3 p-1 smallimg" src="${element.image_url}"class="img-fluid" alt="${element.name}" />
+												<div id="">
+													<h5 class="card-title" style="color: grey">${element.name}</h5>
+												</div>
+											</div>
+										</div>
+
 									</div>
-								  </div>
-								
 								</div>
 
 
@@ -196,9 +166,7 @@ function escrever(data) {
 
 												<!-- FIM DO MODAL 
 												-->
-			</div>
-		</div>
-	</div>`
+	`
 
             )
 
@@ -277,120 +245,132 @@ class BeerSearch {
                         beer.image_url = "https://decisaoentrega.fbitsstatic.net/img/p/refrigerante-coca-cola-vidro-250ml-269493/438806.jpg"
                     }
                     this.elements.results.append(`
-		  <div class="col-lg-4 col-md-6 col-sm-12 mt-4">
-		   <div class="card " style="width: 18rem;" button type="button"  data-toggle="modal" data-target="#modalQuickView">
-  				 
-					  <img class="card-img-top smallimg" src="${beer.image_url}">
-					  <div class="card-body ">
-						  <h5 class="card-title">${beer.name}</h5>
-						  <p class="card-text">${beer.tagline}</p>
-
-
-						  <!-- Modal inicio: modalQuickView -->
-				<div class="modal fade" id="modalQuickView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog modal-lg" role="document">
-						<div class="modal-content">
-							<div class="modal-body">
-
-							<!-- X PRA FECHAR O POP UP -->
-
-							<button type="button" class="close" data-dismiss="modal">
-							   <span>&times;</span>
-							</button>
-								   
-							<!--/.X PRA FECHAR O POP UP-->
-
-								<div class="row">
-									<div class="col-lg-5">
-											 <!--Carousel Wrapper-->
-									   <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
-											
-											 <!--COLOCAR A IMAGEM DA CERVEJA PRINCIPAL-->
-											<div class="carousel-inner" role="listbox" id="imgmodal">
-												<div class="carousel-item active">
-													<img class="d-block w-100" src="${beer.image_url}">
-												</div>
-
+					<div class="col-lg-4 col-md-6 col-sm-12 mt-4 grow">
+					<a><i class="fa fa-star-o two mt-3 mr-4" id="id${beer.id}" aria-hidden="true" onclick="addFavo(${beer.id})"></i></a> 
+					<div class="card" type="button"  data-toggle="modal" data-target="#modalQuickView${beer.id}">
+						<img class="card-img-top smallimg m-3" src="${beer.image_url}">
+						<div class="card-body">
+							<h5 class="card-title">${beer.name}</h5>
+							<p class="card-text">${beer.tagline}</p>
+							</div>
+							</div>
+						</div>
+			
+							<!-- Modal inicio: modalQuickView -->
+							
+							<div class="modal fade" id="modalQuickView${beer.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+										<div class="modal-body p-5">
+			
+										<!-- X PRA FECHAR O POP UP -->
+			
+										<button type="button" class="close" data-dismiss="modal">
+										   <span>&times;</span>
+										</button>
+											   
+										<!--/.X PRA FECHAR O POP UP-->
+			
+											<div class="row">
+												<div class="col-sm-4">
+														 <!--Carousel Wrapper-->
+												   <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
+														
+														 <!--COLOCAR A IMAGEM DA CERVEJA PRINCIPAL-->
+														<div class="carousel-inner" role="listbox" id="imgmodal">
+															<div class="carousel-item active">
+																<img class="d-block w-100" src="${beer.image_url}">
+															</div>
+			
+														</div>
+											   <!--/.FIM DA CERVEJA PRINCIPAL-->
+			
+												   </div>
+			
+			
+												<!--/.Carousel Wrapper-->
+											  </div>
+													<div class="col-sm-8 text-left">
+														<h3 id="nomeprodutomodal">${beer.name} </h3>
+														<h4 class="h4-responsive">
+															<span class="text-muted">
+																<h6>${beer.tagline}</h6>
+															</span>
+															<span>
+															<h5 class ="title mt-3">IBU: ${beer.ibu}  ABV: ${beer.abv}%   EBC: ${beer.ebc}</h5>
+															</span>
+														</h4>
+			
+														<!--Accordion wrapper-->
+														<div class="accordion md-accordion font-size" id="accordionEx" role="tablist" aria-multiselectable="true">
+															<!-- Card body -->
+															<div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
+																<div>
+																${beer.description}
+																<h6 class ="title" style=text-align:left id="bestserved"><strong>Best Served With </strong></h6>
+																 <ul style=text-align:left>
+																   ${beer.food_pairing
+																   .map(ingredient => `<li>${ingredient}</li>`)
+																   .join("")}
+			
+																 </ul>
+																</div>
+																
+															</div>
+			
+													  </div>
+													 
+												  </div>
+			  
+												 
+												  
+											  </div>
+			
+											<div class="row mt-3 mb-3">
+												<h4 class ="title" id="alsolike">You might also like:</h4>
 											</div>
-								   <!--/.FIM DA CERVEJA PRINCIPAL-->
-
-									   </div>
-
-
-									<!--/.Carousel Wrapper-->
-								  </div>
-										<div class="col-lg-7">
-											<h2 class="h2-responsive product-name">
-												<h3 id="nomeprodutomodal" style=text-align:left>${beer.name} </h3>
-											</h2>
-											<h4 class="h4-responsive">
-												<span class="text-muted">
-													<h6 style=text-align:left>${beer.tagline}</h6>
-												</span>
-												<span>
-												<h6 class ="title mt-3" style=text-align:left>IBU: ${beer.ibu}  ABV: ${beer.abv}%   EBC: ${beer.ebc}</h6>
-												</span>
-											</h4>
-
-											<!--Accordion wrapper-->
-											<div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
-
-
-
-												<!-- Card body -->
-												<div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
-													<div class="card-body" style=text-align:left>
-													${beer.tagline}
-													<h6 class ="title" style=text-align:left id="bestserved"><strong>Best Served With </strong></h6>
-													 <ul style=text-align:left>
-													   ${beer.food_pairing
-													   .map(ingredient => `<li>${ingredient}</li>`)
-													   .join("")}
-
-													 </ul>
+			
+											<div class="container">
+												<div class="row">
+			
+													<div class="col-sm-4" data-target="#modalQuickView${Math.floor(Math.random(beer.id) * 10)}">
+														<div class="border height p-3">	
+															<img class="card-img-top m-3 p-1 smallimg" src="${beer.image_url}" class="img-fluid" alt="${beer.name}" />
+															<div id="">
+																<h5 class="card-title" style="color: grey">${beer.name}</h5>
+															</div>
+														</div>
 													</div>
 													
+													<div class="col-sm-4" id="modalQuickView${Math.floor(Math.random(beer.id) * 10)}">
+														<div class="border height p-3">	
+															<img class="card-img-top m-3 p-1 smallimg" src="${beer.image_url}" class="img-fluid" alt="${beer.name}" />
+															<div id="">
+																<h5 class="card-title" style="color: grey">${beer.name}</h5>
+															</div>
+														</div>
+													</div>
+			
+													<div class="col-sm-4" id="modalQuickView${Math.floor(Math.random(beer.id) * 10)}">
+														<div class="border height p-3">	
+															<img class="card-img-top m-3 p-1 smallimg" src="${beer.image_url}"class="img-fluid" alt="${beer.name}" />
+															<div id="">
+																<h5 class="card-title" style="color: grey">${beer.name}</h5>
+															</div>
+														</div>
+													</div>
+			
 												</div>
-
+											</div>
+			
+			
 										  </div>
-										 
 									  </div>
-  
-									  <h4 class ="title ml-4 mt-5" id="alsolike">You might also like:</h4>
-									  
 								  </div>
-								  <div class="card " id="alsolikecard">
-									<img class="card-img-top smallimg" src="${beer.image_url}" class="img-fluid" alt="Responsive image">
-									<div class="card-body" id="alsolikecard">
-									 <h5 class="card-title" style="color: grey">${beer.name}</h5>
-									</div>
-								  </div>
-								 
-								  <div class="card " id="alsolikecard">
-									<img class="card-img-top smallimg" src="${beer.image_url}" class="img-fluid" alt="Responsive image">
-									<div class="card-body" id="alsolikecard">
-									 <h5 class="card-title" style="color: grey">${beer.name}</h5>
-									</div>
-								  </div>
-
-								  <div class="card " id="alsolikecard">
-									<img class="card-img-top smallimg" src="${beer.image_url}"class="img-fluid" alt="Responsive image">
-									<div class="card-body" id="alsolikecard">
-									 <h5 class="card-title" style="color: grey">${beer.name}</h5>
-									</div>
-								  </div>
-
-
 							  </div>
-						  </div>
-					  </div>
-				  </div>
-
-												<!-- FIM DO MODAL --> 
-					
-					  </div>
-				  </div>
-			  </div>`)
+			
+															<!-- FIM DO MODAL  -->			
+					  `)
                 })
             }
         }
@@ -419,12 +399,13 @@ function addFavo(elemento) {
 		}		
 			if(listaFovoritos.includes(elemento)){
 				listaFovoritos.splice(listaFovoritos.indexOf(elemento),1);
-				console.log('deletei dos favoritos')
-				$(`#id-${elemento}`).removeClass('fa fa-star two').addClass('fa fa-star-o');
+				console.log('Bebida deletada dos favoritos')
+				$(`#id${elemento}`).removeClass('fa-star').addClass('fa-star-o');
 			}else{
 				listaFovoritos.push(elemento)
-				console.log('adicionei nos favoritos')
-				$(`#id-${elemento}`).removeClass('fa fa-star-o').addClass('fa fa-star two');
+				console.log('Bebida adicionada aos favoritos')
+				$(`#id${elemento}`).removeClass('fa-star-o').addClass('fa-star');
+				console.log(`id${elemento}`)
 			}			
 			
 		sessionStorage.listaFovoritos = JSON.stringify(listaFovoritos);
