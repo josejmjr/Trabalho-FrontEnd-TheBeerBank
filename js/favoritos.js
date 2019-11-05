@@ -1,27 +1,30 @@
-var favoritos = [];
-listaFovoritos = JSON.parse(sessionStorage.getItem("listaFovoritos"));
-listaAtualizada = JSON.parse(sessionStorage.getItem("listaFovoritos"));
-console.log(listaFovoritos)
-listaFovoritos.forEach(element => {
-    fetch('https://api.punkapi.com/v2/beers/'+element)
-    .then(function(response){
-        return response.json();
-    }).then(function(data){
-   escrever(data)
-console.log(favoritos)
-    
-});
+listaFavoritos = JSON.parse(sessionStorage.getItem("listaFavoritos"));
+listaAtualizada = JSON.parse(sessionStorage.getItem("listaFavoritos"));
+console.log(listaFavoritos)
+listaFavoritos.forEach(element => {
+	fetch('https://api.punkapi.com/v2/beers/' + element)
+		.then(function (response) {
+			return response.json();
+		}).then(function (data) {
+			escrever(data)
+
+
+		});
 })
 
 
-function escrever(arr){
-           // trta cervejas sem foto
-arr.forEach(element => {
-if (element.image_url == null) {
-    element.image_url = "https://decisaoentrega.fbitsstatic.net/img/p/refrigerante-coca-cola-vidro-250ml-269493/438806.jpg"
-}
-$('#fCerveja').append(
-	`
+function escrever(arr) {
+	// trata cervejas sem foto
+	arr.forEach(element => {
+		if (element.image_url == null) {
+			element.image_url = "https://decisaoentrega.fbitsstatic.net/img/p/refrigerante-coca-cola-vidro-250ml-269493/438806.jpg"
+		}
+		let randomBeers = [];
+		randomBeers.push(arr[Math.floor(Math.random() * arr.length)]);
+		randomBeers.push(arr[Math.floor(Math.random() * arr.length)]);
+		randomBeers.push(arr[Math.floor(Math.random() * arr.length)]);
+		$('#fCerveja').append(
+			`
 	<div class="col-lg-4 col-md-6 col-sm-12 mt-4 scrollable-data grow teste2" style="height:485px;">
 		<div class="card" button type="button" data-toggle="modal" data-target="#modalQuickView${element.id}">
 			<a><i class="fa fa-star-o two mt-3 mr-4" id="id-${element.id}" aria-hidden="true" onclick="addFavo(${element.id})"></i></a>	
@@ -109,29 +112,29 @@ $('#fCerveja').append(
 								<div class="container">
 									<div class="row">
 
-										<div class="col-sm-4" data-target="#modalQuickView${Math.floor(Math.random(element.id) * 10)}">
+										<div class="col-sm-4" data-target="#modalQuickView${randomBeers[0].id}">
 											<div class="border height p-3">	
-												<img class="card-img-top m-3 p-1 smallimg" src="${element.image_url}" class="img-fluid" alt="${element.name}" />
+												<img class="card-img-top m-3 p-1 smallimg" src="${randomBeers[0].image_url}" class="img-fluid" alt="${element.name}" />
 												<div id="">
-													<h5 class="card-title" style="color: grey">${element.name}</h5>
+													<h5 class="card-title" style="color: grey">${randomBeers[0].name}</h5>
 												</div>
 											</div>
 										</div>
 										
-										<div class="col-sm-4" id="modalQuickView${Math.floor(Math.random(element.id) * 10)}">
+										<div class="col-sm-4" id="modalQuickView${randomBeers[1].id}">
 											<div class="border height p-3">	
-												<img class="card-img-top m-3 p-1 smallimg" src="${element.image_url}" class="img-fluid" alt="${element.name}" />
+												<img class="card-img-top m-3 p-1 smallimg" src="${randomBeers[1].image_url}" class="img-fluid" alt="${element.name}" />
 												<div id="">
-													<h5 class="card-title" style="color: grey">${element.name}</h5>
+													<h5 class="card-title" style="color: grey">${randomBeers[1].name}</h5>
 												</div>
 											</div>
 										</div>
 
-										<div class="col-sm-4" id="modalQuickView${Math.floor(Math.random(element.id) * 10)}">
+										<div class="col-sm-4" id="modalQuickView${randomBeers[2].id}">
 											<div class="border height p-3">	
-												<img class="card-img-top m-3 p-1 smallimg" src="${element.image_url}"class="img-fluid" alt="${element.name}" />
+												<img class="card-img-top m-3 p-1 smallimg" src="${randomBeers[2].image_url}"class="img-fluid" alt="${element.name}" />
 												<div id="">
-													<h5 class="card-title" style="color: grey">${element.name}</h5>
+													<h5 class="card-title" style="color: grey">${randomBeers[2].name}</h5>
 												</div>
 											</div>
 										</div>
@@ -148,40 +151,43 @@ $('#fCerveja').append(
 												<!-- FIM DO MODAL 
 												-->
 	`
-)
+		)
 
-if(listaAtualizada !== ""){
-	console.log("entrei INT")
-listaAtualizada.forEach(element => {
-	
-	$(`#id-${element}`).removeClass('fa fa-star-o').addClass('fa fa-star two');	
-});
-}})
+		if (listaAtualizada !== "") {
+			console.log("entrei INT")
+			listaAtualizada.forEach(element => {
+
+				$(`#id-${element}`).removeClass('fa fa-star-o').addClass('fa fa-star two');
+			});
+		}
+	})
 }
 
 
 
 function addFavo(elemento) {
-	console.log('tona funcao de favoritos')
-	if(typeof(Storage) !== "undefined") {
-		if (sessionStorage.listaFovoritos) {
-			listaFovoritos = JSON.parse(
-				sessionStorage.getItem("listaFovoritos"));
+	console.log('Retorna funcao de favoritos')
+	if (typeof (Storage) !== "undefined") {
+		if (sessionStorage.listaFavoritos) {
+			listaFavoritos = JSON.parse(
+				sessionStorage.getItem("listaFavoritos"));
 		} else {
-			listaFovoritos = [];
-		}		
-			if(listaFovoritos.includes(elemento)){
-				listaFovoritos.splice(listaFovoritos.indexOf(elemento),1);
-                console.log('deletei dos favoritos uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu')
-                location.reload();
-			}else{
-				listaFovoritos.push(elemento)
-                console.log('adicionei nos favoritos ooooooo')
-                location.reload();
-			}			
-			
-		sessionStorage.listaFovoritos = JSON.stringify(listaFovoritos);
+			listaFavoritos = [];
+		}
+		if (listaFavoritos.includes(elemento)) {
+			listaFavoritos.splice(listaFavoritos.indexOf(elemento), 1);
+			console.log('Bebida deletada dos favoritos')
+			location.reload();
+		} else {
+			listaFavoritos.push(elemento)
+			console.log('Bebida adicionada aos favoritos')
+			location.reload();
+		}
+
+		sessionStorage.listaFavoritos = JSON.stringify(listaFavoritos);
 	}
-	var fav = listaFovoritos.filter(function (cerva){ return listaFovoritos.includes(cerva.id)});
-		console.log(fav)
+	var fav = listaFavoritos.filter(function (cerva) {
+		return listaFavoritos.includes(cerva.id)
+	});
+	console.log(fav)
 }

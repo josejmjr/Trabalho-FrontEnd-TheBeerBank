@@ -1,45 +1,62 @@
-const todasCervejas = [];
 var i = 2;
 
 // verificar se não tem nada e escreve na tela as 80 primeiras
 if ($('#search-input').val() == '') {
-    fetch(`https://api.punkapi.com/v2/beers?page=1&per_page=80`)
-        .then(function(resp) {
-            return resp.json();
-        })
-        .then(function(data) {
-            escrever(data);
-        });
+	fetch(`https://api.punkapi.com/v2/beers?page=1&per_page=80`)
+		.then(function (resp) {
+			return resp.json();
+		})
+		.then(function (data) {
+			escrever(data);
+		});
 };
 
 
-$(window).scroll(function() {
-    if ($(window).scrollTop() == $(document).height() - $(window).height() && $('#search-input').val() === "") {
-        // ajax call get data from server and append to the div
-        if (i < 6) {
-            fetch(`https://api.punkapi.com/v2/beers?page=${i}&per_page=80`)
-                .then(function(resp) {
-                    return resp.json();
-                })
-                .then(function(data) {
-                    escrever(data);
-                });
-            i++;
-        }
-    }
+$(window).scroll(function () {
+	if ($(window).scrollTop() == $(document).height() - $(window).height() && $('#search-input').val() === "") {
+		// ajax call get data from server and append to the div
+		if (i < 6) {
+			fetch(`https://api.punkapi.com/v2/beers?page=${i}&per_page=80`)
+				.then(function (resp) {
+					return resp.json();
+				})
+				.then(function (data) {
+					escrever(data);
+				});
+			i++;
+		}
+	}
 });
 
 function escrever(data) {
-    if (data.length === 0) {
-        this.showError('Esta Cerveja não existe na nossa base de Cervejas!')
-    } else {
-        $('#error').remove()
-        data.forEach(element => {
-                    if (element.image_url == null) {
-                        element.image_url = "https://decisaoentrega.fbitsstatic.net/img/p/refrigerante-coca-cola-vidro-250ml-269493/438806.jpg"
-                    }
-                    $('#lCervejas').append(
-                            `
+	/*if(localStorage != undefined){
+		if(localStorage[""]){
+			listaFavoritos = JSON.parse(localStorage[""]);
+		}
+	}*/
+	if (data.length === 0) {
+		this.showError('Esta Cerveja não existe na nossa base de Cervejas!')
+	} else {
+		$('#error').remove()
+		data.forEach(element => {
+			if (element.image_url == null) {
+				element.image_url = "https://decisaoentrega.fbitsstatic.net/img/p/refrigerante-coca-cola-vidro-250ml-269493/438806.jpg"
+			}
+
+			/*let classFa = "fa-star-o";
+			if(listaFavoritos.includes(element)){
+				classFa= "fa-star";
+			}*/
+
+			let randomBeers = [];
+			randomBeers.push(data[Math.floor(Math.random() * data.length)]);
+			randomBeers.push(data[Math.floor(Math.random() * data.length)]);
+			randomBeers.push(data[Math.floor(Math.random() * data.length)]);
+
+			//${classFa} 
+
+			$('#lCervejas').append(
+				`
 		<div class="col-lg-4 col-md-6 col-sm-12 mt-4 grow">
 		<a><i class="fa fa-star-o two mt-3 mr-4" id="id${element.id}" aria-hidden="true" onclick="addFavo(${element.id})"></i></a> 
 		<div class="card" type="button"  data-toggle="modal" data-target="#modalQuickView${element.id}">
@@ -128,29 +145,29 @@ function escrever(data) {
 								<div class="container">
 									<div class="row">
 
-										<div class="col-sm-4" data-target="#modalQuickView${Math.floor(Math.random(element.id) * 10)}">
+										<div class="col-sm-4" data-target="#modalQuickView${randomBeers[0].id}">
 											<div class="border height p-3">	
-												<img class="card-img-top m-3 p-1 smallimg" src="${element.image_url}" class="img-fluid" alt="${element.name}" />
+												<img class="card-img-top m-3 p-1 smallimg" src="${randomBeers[0].image_url}" class="img-fluid" alt="${element.name}" />
 												<div id="">
-													<h5 class="card-title" style="color: grey">${element.name}</h5>
+													<h5 class="card-title" style="color: grey">${randomBeers[0].name}</h5>
 												</div>
 											</div>
 										</div>
 										
-										<div class="col-sm-4" id="modalQuickView${Math.floor(Math.random(element.id) * 10)}">
+										<div class="col-sm-4" id="modalQuickView${randomBeers[1].id}">
 											<div class="border height p-3">	
-												<img class="card-img-top m-3 p-1 smallimg" src="${element.image_url}" class="img-fluid" alt="${element.name}" />
+												<img class="card-img-top m-3 p-1 smallimg" src="${randomBeers[1].image_url}" class="img-fluid" alt="${element.name}" />
 												<div id="">
-													<h5 class="card-title" style="color: grey">${element.name}</h5>
+													<h5 class="card-title" style="color: grey">${randomBeers[1].name}</h5>
 												</div>
 											</div>
 										</div>
 
-										<div class="col-sm-4" id="modalQuickView${Math.floor(Math.random(element.id) * 10)}">
+										<div class="col-sm-4" id="modalQuickView${randomBeers[2].id}">
 											<div class="border height p-3">	
-												<img class="card-img-top m-3 p-1 smallimg" src="${element.image_url}"class="img-fluid" alt="${element.name}" />
+												<img class="card-img-top m-3 p-1 smallimg" src="${randomBeers[2].image_url}"class="img-fluid" alt="${element.name}" />
 												<div id="">
-													<h5 class="card-title" style="color: grey">${element.name}</h5>
+													<h5 class="card-title" style="color: grey">${randomBeers[2].name}</h5>
 												</div>
 											</div>
 										</div>
@@ -168,83 +185,91 @@ function escrever(data) {
 												-->
 	`
 
-            )
+			)
 
-        });
-    }
+		});
+	}
 }
+
 
 
 // Auto complete
 var options = {
-    url: function(q) {
-        return "https://api.punkapi.com/v2/beers?beer_name=" + q;
-    },
-    getValue: "name",
+	url: function (q) {
+		return "https://api.punkapi.com/v2/beers?beer_name=" + q;
+	},
+	getValue: "name",
 
-    requestDelay: 1000
+	requestDelay: 1000
 };
 
 $("#search-input").easyAutocomplete(options);
 
 class BeerAPI {
-    constructor() {
-        this.apiUrl = 'https://api.punkapi.com/v2/beers'
-    }
+	constructor() {
+		this.apiUrl = 'https://api.punkapi.com/v2/beers'
+	}
 
 	// Busca
-    searchByName(name, callback) {
-        const url = this.apiUrl
-        const params = {
-            'beer_name': name
-        }
+	searchByName(name, callback) {
+		const url = this.apiUrl
+		const params = {
+			'beer_name': name
+		}
 
-        $.getJSON(url, params)
-            .done((data) => {
-                callback(data)
-            })
-            .fail((response) => {
-                callback(null)
-            })
-    }
+		$.getJSON(url, params)
+			.done((data) => {
+				callback(data)
+			})
+			.fail((response) => {
+				callback(null)
+			})
+	}
 }
 
 class BeerSearch {
-    constructor() {
-        this.BeerAPI = new BeerAPI()
-        this.elements = {
-            'form': $('#search-form'),
-            'input': $('#search-input'),
-            'results': $('#lCervejas')
-        }
+	constructor() {
+		this.BeerAPI = new BeerAPI()
+		this.elements = {
+			'form': $('#search-form'),
+			'input': $('#search-input'),
+			'results': $('#lCervejas')
+		}
 
-        this.registerEvents()
-    }
+		this.registerEvents()
+	}
 
-    registerEvents() {
-        this.elements.form.on('submit', (e) => {
-            e.preventDefault()
-            const userInput = this.elements.input.val().trim();
-            this.BeerAPI.searchByName(
-                userInput, (data) => {
-                    this.showResults(data)
-                }
-            )
-        })
-    }
+	registerEvents() {
+		this.elements.form.on('submit', (e) => {
+			e.preventDefault()
+			const userInput = this.elements.input.val().trim();
+			this.BeerAPI.searchByName(
+				userInput, (data) => {
+					this.showResults(data)
+				}
+			)
+		})
+	}
 
-    // escreve na tela resultado
-    showResults(data) {
-            this.elements.results.html('')
-            if (data.length === 0) {
-                this.showError('Esta Cerveja não existe na nossa base de Cervejas!')
-            } else {
-                $('#error').remove()
-                data.forEach((beer) => {
-                    if (beer.image_url == null) {
-                        beer.image_url = "https://decisaoentrega.fbitsstatic.net/img/p/refrigerante-coca-cola-vidro-250ml-269493/438806.jpg"
-                    }
-                    this.elements.results.append(`
+
+	// escreve na tela resultado
+	showResults(data) {
+		this.elements.results.html('')
+		if (data.length === 0) {
+			this.showError('Esta Cerveja não existe na nossa base de Cervejas!')
+		} else {
+			$('#error').remove()
+			data.forEach((beer) => {
+				if (beer.image_url == null) {
+					beer.image_url = "https://decisaoentrega.fbitsstatic.net/img/p/refrigerante-coca-cola-vidro-250ml-269493/438806.jpg"
+				}
+
+				let randomBeersBusca = [];
+				randomBeersBusca.push(data[Math.floor(Math.random() * data.length)]);
+				randomBeersBusca.push(data[Math.floor(Math.random() * data.length)]);
+				randomBeersBusca.push(data[Math.floor(Math.random() * data.length)]);
+
+				this.elements.results.append(`
 					<div class="col-lg-4 col-md-6 col-sm-12 mt-4 grow">
 					<a><i class="fa fa-star-o two mt-3 mr-4" id="id${beer.id}" aria-hidden="true" onclick="addFavo(${beer.id})"></i></a> 
 					<div class="card" type="button"  data-toggle="modal" data-target="#modalQuickView${beer.id}">
@@ -333,29 +358,29 @@ class BeerSearch {
 											<div class="container">
 												<div class="row">
 			
-													<div class="col-sm-4" data-target="#modalQuickView${Math.floor(Math.random(beer.id) * 10)}">
+													<div class="col-sm-4" data-target="#modalQuickView${randomBeersBusca[0].id}">
 														<div class="border height p-3">	
-															<img class="card-img-top m-3 p-1 smallimg" src="${beer.image_url}" class="img-fluid" alt="${beer.name}" />
+															<img class="card-img-top m-3 p-1 smallimg" src="${randomBeersBusca[0].image_url}" class="img-fluid" alt="${beer.name}" />
 															<div id="">
-																<h5 class="card-title" style="color: grey">${beer.name}</h5>
+																<h5 class="card-title" style="color: grey">${randomBeersBusca[0].name}</h5>
 															</div>
 														</div>
 													</div>
 													
-													<div class="col-sm-4" id="modalQuickView${Math.floor(Math.random(beer.id) * 10)}">
+													<div class="col-sm-4" id="modalQuickView${randomBeersBusca[1].id}">
 														<div class="border height p-3">	
-															<img class="card-img-top m-3 p-1 smallimg" src="${beer.image_url}" class="img-fluid" alt="${beer.name}" />
+															<img class="card-img-top m-3 p-1 smallimg" src="${randomBeersBusca[1].image_url}" class="img-fluid" alt="${beer.name}" />
 															<div id="">
-																<h5 class="card-title" style="color: grey">${beer.name}</h5>
+																<h5 class="card-title" style="color: grey">${randomBeersBusca[1].name}</h5>
 															</div>
 														</div>
 													</div>
 			
-													<div class="col-sm-4" id="modalQuickView${Math.floor(Math.random(beer.id) * 10)}">
+													<div class="col-sm-4" id="modalQuickView${randomBeersBusca[2].id}">
 														<div class="border height p-3">	
-															<img class="card-img-top m-3 p-1 smallimg" src="${beer.image_url}"class="img-fluid" alt="${beer.name}" />
+															<img class="card-img-top m-3 p-1 smallimg" src="${randomBeersBusca[2].image_url}"class="img-fluid" alt="${beer.name}" />
 															<div id="">
-																<h5 class="card-title" style="color: grey">${beer.name}</h5>
+																<h5 class="card-title" style="color: grey">${randomBeersBusca[2].name}</h5>
 															</div>
 														</div>
 													</div>
@@ -371,49 +396,49 @@ class BeerSearch {
 			
 															<!-- FIM DO MODAL  -->			
 					  `)
-                })
-            }
-        }
-        // caso de erro gera umj div com o erro
-    showError(message) {
-        let alert = $('#error')
-
-        if (alert.length === 0) {
-            this.elements.form.before('<div class="alert alert-danger" id="error"></div>')
-            alert = $('#error')
-        }
-
-        alert.text(message)
-    }
-}
-
-//Guarda os favoritos
-var listaFovoritos = [];
-function addFavo(elemento) {
-	if(typeof(Storage) !== "undefined") {
-		if (sessionStorage.listaFovoritos) {
-			listaFovoritos = JSON.parse(
-				sessionStorage.getItem("listaFovoritos"));
-		} else {
-			listaFovoritos = [];
-		}		
-			if(listaFovoritos.includes(elemento)){
-				listaFovoritos.splice(listaFovoritos.indexOf(elemento),1);
-				console.log('Bebida deletada dos favoritos')
-				$(`#id${elemento}`).removeClass('fa-star').addClass('fa-star-o');
-			}else{
-				listaFovoritos.push(elemento)
-				console.log('Bebida adicionada aos favoritos')
-				$(`#id${elemento}`).removeClass('fa-star-o').addClass('fa-star');
-				console.log(`id${elemento}`)
-			}			
-			
-		sessionStorage.listaFovoritos = JSON.stringify(listaFovoritos);
+			})
+		}
 	}
-	listaAtualizada = JSON.parse(sessionStorage.getItem("listaFovoritos"));
-	
+
+
+	showError(message) {
+		let alert = $('#error')
+
+		if (alert.length === 0) {
+			this.elements.form.before('<div class="alert alert-danger" id="error"></div>')
+			alert = $('#error')
+		}
+
+		alert.text(message)
+	}
 }
-
-
 
 const beerForm = new BeerSearch()
+
+//Guarda os favoritos
+var listaFavoritos = [];
+
+function addFavo(elemento) {
+	if (typeof (Storage) !== "undefined") {
+		if (sessionStorage.listaFavoritos) {
+			listaFavoritos = JSON.parse(
+				sessionStorage.getItem("listaFavoritos"));
+		} else {
+			listaFavoritos = [];
+		}
+		if (listaFavoritos.includes(elemento)) {
+			listaFavoritos.splice(listaFavoritos.indexOf(elemento), 1);
+			console.log('Bebida deletada dos favoritos')
+			$(`#id${elemento}`).removeClass('fa-star').addClass('fa-star-o');
+		} else {
+			listaFavoritos.push(elemento)
+			console.log('Bebida adicionada aos favoritos')
+			$(`#id${elemento}`).removeClass('fa-star-o').addClass('fa-star');
+			console.log(`id${elemento}`)
+		}
+
+		sessionStorage.listaFavoritos = JSON.stringify(listaFavoritos);
+	}
+	listaAtualizada = JSON.parse(sessionStorage.getItem("listaFavoritos"));
+
+}
