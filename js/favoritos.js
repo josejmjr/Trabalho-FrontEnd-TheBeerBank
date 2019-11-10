@@ -1,3 +1,28 @@
+var todasBebidas = [];
+
+const urls = ['https://api.punkapi.com/v2/beers?page=1&per_page=80',
+'https://api.punkapi.com/v2/beers?page=2&per_page=80',
+'https://api.punkapi.com/v2/beers?page=3&per_page=80',
+'https://api.punkapi.com/v2/beers?page=4&per_page=80',
+'https://api.punkapi.com/v2/beers?page=5&per_page=80'];
+
+vainaAPI(urls).then(response =>{
+	console.log ("executando!")
+})
+.catch(error => {
+
+	console.error(error);
+});
+
+async function vainaAPI(urls){
+	for(let url of urls){
+		const response = await fetch(url);
+		const lcervejas = await response.json();
+		todasBebidas.push(...lcervejas)
+	}
+}
+
+
 listaFavoritos = JSON.parse(sessionStorage.getItem("listaFavoritos"));
 listaAtualizada = JSON.parse(sessionStorage.getItem("listaFavoritos"));
 console.log(listaFavoritos)
@@ -17,12 +42,19 @@ function escrever(arr) {
 	// trata cervejas sem foto
 	arr.forEach(element => {
 		if (element.image_url == null) {
-			element.image_url = "https://decisaoentrega.fbitsstatic.net/img/p/refrigerante-coca-cola-vidro-250ml-269493/438806.jpg"
+			element.image_url = "http://www.portaldapropaganda.com.br/noticias/wp-content/uploads/2018/03/Coca-Cola-600ml-Vidro-decart%C3%A1vel.png"
 		}
 		let randomBeers = [];
-		randomBeers.push(arr[Math.floor(Math.random() * arr.length)]);
-		randomBeers.push(arr[Math.floor(Math.random() * arr.length)]);
-		randomBeers.push(arr[Math.floor(Math.random() * arr.length)]);
+		randomBeers.push(todasBebidas[Math.floor(Math.random() * todasBebidas.length)]);
+		randomBeers.push(todasBebidas[Math.floor(Math.random() * todasBebidas.length)]);
+		randomBeers.push(todasBebidas[Math.floor(Math.random() * todasBebidas.length)]);
+
+		for(var i=0; i<3; i++){
+			if (randomBeers[i].image_url == null) {
+				randomBeers[i].image_url = "http://www.portaldapropaganda.com.br/noticias/wp-content/uploads/2018/03/Coca-Cola-600ml-Vidro-decart%C3%A1vel.png"
+			}
+		}
+		
 		$('#fCerveja').append(
 			`
 	<div class="col-lg-4 col-md-6 col-sm-12 mt-4 scrollable-data grow teste2" style="height:485px;">
@@ -75,6 +107,7 @@ function escrever(arr) {
 												<span class="text-muted">
 													<h6>${element.tagline}</h6>
 												</span>
+												<hr/>
 												<span>
 												<h5 class ="title mt-3">IBU: ${element.ibu}  ABV: ${element.abv}%   EBC: ${element.ebc}</h5>
 												</span>

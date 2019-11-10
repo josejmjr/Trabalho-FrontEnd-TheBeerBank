@@ -1,4 +1,30 @@
 var i = 2;
+var todasBebidas = [];
+listaAtualizada = JSON.parse(sessionStorage.getItem("listaFovoritos"));
+
+
+
+const urls = ['https://api.punkapi.com/v2/beers?page=1&per_page=80',
+'https://api.punkapi.com/v2/beers?page=2&per_page=80',
+'https://api.punkapi.com/v2/beers?page=3&per_page=80',
+'https://api.punkapi.com/v2/beers?page=4&per_page=80',
+'https://api.punkapi.com/v2/beers?page=5&per_page=80'];
+
+vainaAPI(urls).then(response =>{
+	console.log ("executando!")
+})
+.catch(error => {
+
+	console.error(error);
+});
+
+async function vainaAPI(urls){
+	for(let url of urls){
+		const response = await fetch(url);
+		const lcervejas = await response.json();
+		todasBebidas.push(...lcervejas)
+	}
+}
 
 // verificar se não tem nada e escreve na tela as 80 primeiras
 if ($('#search-input').val() == '') {
@@ -29,31 +55,26 @@ $(window).scroll(function () {
 });
 
 function escrever(data) {
-	/*if(localStorage != undefined){
-		if(localStorage[""]){
-			listaFavoritos = JSON.parse(localStorage[""]);
-		}
-	}*/
 	if (data.length === 0) {
 		this.showError('Esta Cerveja não existe na nossa base de Cervejas!')
 	} else {
 		$('#error').remove()
 		data.forEach(element => {
 			if (element.image_url == null) {
-				element.image_url = "https://decisaoentrega.fbitsstatic.net/img/p/refrigerante-coca-cola-vidro-250ml-269493/438806.jpg"
+				element.image_url = "http://www.portaldapropaganda.com.br/noticias/wp-content/uploads/2018/03/Coca-Cola-600ml-Vidro-decart%C3%A1vel.png"
 			}
 
-			/*let classFa = "fa-star-o";
-			if(listaFavoritos.includes(element)){
-				classFa= "fa-star";
-			}*/
-
 			let randomBeers = [];
-			randomBeers.push(data[Math.floor(Math.random() * data.length)]);
-			randomBeers.push(data[Math.floor(Math.random() * data.length)]);
-			randomBeers.push(data[Math.floor(Math.random() * data.length)]);
+			randomBeers.push(todasBebidas[Math.floor(Math.random() * todasBebidas.length)]);
+			randomBeers.push(todasBebidas[Math.floor(Math.random() * todasBebidas.length)]);
+			randomBeers.push(todasBebidas[Math.floor(Math.random() * todasBebidas.length)]);
 
-			//${classFa} 
+			for(var i=0; i<3; i++){
+				if (randomBeers[i].image_url == null) {
+					randomBeers[i].image_url = "http://www.portaldapropaganda.com.br/noticias/wp-content/uploads/2018/03/Coca-Cola-600ml-Vidro-decart%C3%A1vel.png"
+				}
+			}
+
 
 			$('#lCervejas').append(
 				`
@@ -108,6 +129,7 @@ function escrever(data) {
 												<span class="text-muted">
 													<h6>${element.tagline}</h6>
 												</span>
+												<hr/>
 												<span>
 												<h5 class ="title mt-3">IBU: ${element.ibu}  ABV: ${element.abv}%   EBC: ${element.ebc}</h5>
 												</span>
@@ -147,7 +169,7 @@ function escrever(data) {
 
 										<div class="col-sm-4" data-target="#modalQuickView${randomBeers[0].id}">
 											<div class="border height p-3">	
-												<img class="card-img-top m-3 p-1 smallimg" src="${randomBeers[0].image_url}" class="img-fluid" alt="${element.name}" />
+												<img class="card-img-top m-3 p-1 smallimg" src="${randomBeers[0].image_url}" class="img-fluid" alt="${randomBeers[0].name}" />
 												<div id="">
 													<h5 class="card-title" style="color: grey">${randomBeers[0].name}</h5>
 												</div>
@@ -156,7 +178,7 @@ function escrever(data) {
 										
 										<div class="col-sm-4" id="modalQuickView${randomBeers[1].id}">
 											<div class="border height p-3">	
-												<img class="card-img-top m-3 p-1 smallimg" src="${randomBeers[1].image_url}" class="img-fluid" alt="${element.name}" />
+												<img class="card-img-top m-3 p-1 smallimg" src="${randomBeers[1].image_url}" class="img-fluid" alt="${randomBeers[1].name}" />
 												<div id="">
 													<h5 class="card-title" style="color: grey">${randomBeers[1].name}</h5>
 												</div>
@@ -165,7 +187,7 @@ function escrever(data) {
 
 										<div class="col-sm-4" id="modalQuickView${randomBeers[2].id}">
 											<div class="border height p-3">	
-												<img class="card-img-top m-3 p-1 smallimg" src="${randomBeers[2].image_url}"class="img-fluid" alt="${element.name}" />
+												<img class="card-img-top m-3 p-1 smallimg" src="${randomBeers[2].image_url}"class="img-fluid" alt="${randomBeers[2].name}" />
 												<div id="">
 													<h5 class="card-title" style="color: grey">${randomBeers[2].name}</h5>
 												</div>
@@ -259,15 +281,23 @@ class BeerSearch {
 			this.showError('Esta Cerveja não existe na nossa base de Cervejas!')
 		} else {
 			$('#error').remove()
-			data.forEach((beer) => {
+			data.forEach(beer => {
 				if (beer.image_url == null) {
-					beer.image_url = "https://decisaoentrega.fbitsstatic.net/img/p/refrigerante-coca-cola-vidro-250ml-269493/438806.jpg"
+					beer.image_url = "http://www.portaldapropaganda.com.br/noticias/wp-content/uploads/2018/03/Coca-Cola-600ml-Vidro-decart%C3%A1vel.png"
 				}
 
 				let randomBeersBusca = [];
-				randomBeersBusca.push(data[Math.floor(Math.random() * data.length)]);
-				randomBeersBusca.push(data[Math.floor(Math.random() * data.length)]);
-				randomBeersBusca.push(data[Math.floor(Math.random() * data.length)]);
+				randomBeersBusca.push(todasBebidas[Math.floor(Math.random() * todasBebidas.length)]);
+				randomBeersBusca.push(todasBebidas[Math.floor(Math.random() * todasBebidas.length)]);
+				randomBeersBusca.push(todasBebidas[Math.floor(Math.random() * todasBebidas.length)]);
+
+
+				for(var i=0; i<3; i++){
+					if (randomBeersBusca[i].image_url == null) {
+						randomBeersBusca[i].image_url = "http://www.portaldapropaganda.com.br/noticias/wp-content/uploads/2018/03/Coca-Cola-600ml-Vidro-decart%C3%A1vel.png"
+					}
+				}
+	
 
 				this.elements.results.append(`
 					<div class="col-lg-4 col-md-6 col-sm-12 mt-4 grow">
@@ -321,6 +351,7 @@ class BeerSearch {
 															<span class="text-muted">
 																<h6>${beer.tagline}</h6>
 															</span>
+															<hr/>
 															<span>
 															<h5 class ="title mt-3">IBU: ${beer.ibu}  ABV: ${beer.abv}%   EBC: ${beer.ebc}</h5>
 															</span>
@@ -360,7 +391,7 @@ class BeerSearch {
 			
 													<div class="col-sm-4" data-target="#modalQuickView${randomBeersBusca[0].id}">
 														<div class="border height p-3">	
-															<img class="card-img-top m-3 p-1 smallimg" src="${randomBeersBusca[0].image_url}" class="img-fluid" alt="${beer.name}" />
+															<img class="card-img-top m-3 p-1 smallimg" src="${randomBeersBusca[0].image_url}" class="img-fluid" alt="${randomBeersBusca[0].name}" />
 															<div id="">
 																<h5 class="card-title" style="color: grey">${randomBeersBusca[0].name}</h5>
 															</div>
@@ -369,7 +400,7 @@ class BeerSearch {
 													
 													<div class="col-sm-4" id="modalQuickView${randomBeersBusca[1].id}">
 														<div class="border height p-3">	
-															<img class="card-img-top m-3 p-1 smallimg" src="${randomBeersBusca[1].image_url}" class="img-fluid" alt="${beer.name}" />
+															<img class="card-img-top m-3 p-1 smallimg" src="${randomBeersBusca[1].image_url}" class="img-fluid" alt="${randomBeersBusca[1].name}" />
 															<div id="">
 																<h5 class="card-title" style="color: grey">${randomBeersBusca[1].name}</h5>
 															</div>
@@ -378,7 +409,7 @@ class BeerSearch {
 			
 													<div class="col-sm-4" id="modalQuickView${randomBeersBusca[2].id}">
 														<div class="border height p-3">	
-															<img class="card-img-top m-3 p-1 smallimg" src="${randomBeersBusca[2].image_url}"class="img-fluid" alt="${beer.name}" />
+															<img class="card-img-top m-3 p-1 smallimg" src="${randomBeersBusca[2].image_url}"class="img-fluid" alt="${randomBeersBusca[2].name}" />
 															<div id="">
 																<h5 class="card-title" style="color: grey">${randomBeersBusca[2].name}</h5>
 															</div>

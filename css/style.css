@@ -43,18 +43,6 @@ h2{
  width: 25em;
 }
 
-#btn-buscar{
-    margin-left: 1em;
-    border: none;
-    background-color: #b8b5b2;
-    font-weight: bold;
-}
-
-#btn-buscar:hover{
-    background-color: #3a3a39;
-    color: #fa7f0c;
-}
-
 
 .card-title {
     color: #fa7f0c;
@@ -94,6 +82,13 @@ h2{
     box-shadow: 0 0 0.8em #b8b5b2;
 }
 
+hr {
+    border: .175em solid;
+    color: rgb(174, 63, 153);
+    width: 20%;
+    margin-left: 0;
+    display: block;
+}
 
 /* resolve problema dos tamanho das imagens */
 
